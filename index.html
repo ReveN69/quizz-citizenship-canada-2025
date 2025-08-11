@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Quiz Citoyenneté Canadienne</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="wrap">
+    <header>
+      <div>
+        <h1>Simulateur — Test de citoyenneté canadienne</h1>
+        <div class="meta">20 questions | 30 minutes | Succès : 15/20</div>
+      </div>
+      <div class="controls">
+        <div class="timer card" id="timer">30:00</div>
+        <button id="startBtn">Démarrer le test</button>
+        <button id="resetBtn" class="ghost">Réinitialiser</button>
+      </div>
+    </header>
+
+    <main class="card">
+      <div id="intro">
+        <p class="small">Ce prototype reproduit les conditions du test officiel : 20 questions tirées au hasard, 30 minutes pour répondre. À la fin, tu obtiendras ta note sur 20 ainsi qu'un résumé des réponses incorrectes avec la bonne réponse et une explication.</p>
+        <p class="small">Tu peux modifier les questions dans le fichier <code>questions.json</code>.</p>
+      </div>
+
+      <div id="quizArea" class="hidden">
+        <div class="topline">
+          <div><strong id="qCount">Question 1 / 20</strong></div>
+          <div class="small">Temps restant : <span id="timeLeft">30:00</span></div>
+        </div>
+
+        <div id="questionsContainer"></div>
+
+        <footer>
+          <div class="small">Réponse automatique enregistrée quand tu sélectionnes une option.</div>
+          <div>
+            <button id="prevBtn" class="ghost">Précédent</button>
+            <button id="nextBtn">Suivant</button>
+            <button id="submitBtn" style="background:#16a34a">Terminer et soumettre</button>
+          </div>
+        </footer>
+      </div>
+
+      <div id="resultArea" class="hidden">
+        <div class="results">
+          <div class="result-score" id="scoreText"></div>
+          <div class="small" id="passText"></div>
+          <div id="reviewList"></div>
+          <div style="margin-top:12px" class="center"><button id="retryBtn" class="ghost">Refaire un test (nouvelles questions)</button></div>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
