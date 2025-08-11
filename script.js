@@ -1,9 +1,139 @@
-// Charge la banque de questions depuis questions.json et gère le quiz
-
 const TOTAL_QUESTIONS = 20;
 const TIME_LIMIT_SEC = 30 * 60;
 
-let QUESTIONS = [];
+const QUESTIONS = [
+  {
+    q: "Quelle fleur est traditionnellement portée le jour du Souvenir?",
+    opts: ["La tulipe", "Le coquelicot", "La marguerite", "La rose"],
+    a: 1,
+    expl: "Le coquelicot est porté pour se souvenir du sacrifice des Canadiens pendant les guerres."
+  },
+  {
+    q: "Combien de provinces y a-t-il au Canada?",
+    opts: ["10", "13", "9", "11"],
+    a: 0,
+    expl: "Le Canada compte 10 provinces et 3 territoires."
+  },
+  {
+    q: "Qui est le chef de l'État au Canada?",
+    opts: ["Le Premier ministre", "Le gouverneur général", "La Reine / le Roi", "Le Président"],
+    a: 2,
+    expl: "La Reine (ou le Roi) est le chef d'État constitutionnel; le gouverneur général la représente au Canada."
+  },
+  {
+    q: "Que signifie la devise 'A Mari Usque Ad Mare'?",
+    opts: ["D'un océan à l'autre", "Force et honneur", "Unité et paix", "Terre de liberté"],
+    a: 0,
+    expl: "'D'un océan à l'autre' est la devise du Canada."
+  },
+  {
+    q: "Quel est le rôle du Parlement?",
+    opts: ["Faire les lois", "Nommer la Cour suprême", "Gérer les écoles", "Organiser les élections"],
+    a: 0,
+    expl: "Le Parlement adopte les lois fédérales."
+  },
+  {
+    q: "Quel est l'âge minimum pour voter aux élections fédérales?",
+    opts: ["16 ans", "18 ans", "21 ans", "17 ans"],
+    a: 1,
+    expl: "Au Canada, il faut avoir 18 ans pour voter aux élections fédérales."
+  },
+  {
+    q: "Quel est le nom du drapeau du Canada?",
+    opts: ["L'Union Jack", "L'Unifolié (Maple Leaf)", "Le Tricolore", "La Bannière Royale"],
+    a: 1,
+    expl: "Le drapeau national est souvent appelé 'l'Unifolié' ou 'Maple Leaf'."
+  },
+  {
+    q: "Que doivent faire les citoyens quand ils sont appelés à servir comme jurés?",
+    opts: ["Refuser si occupé", "Se présenter au tribunal", "Payer une amende", "Se retirer du pays"],
+    a: 1,
+    expl: "Le service de jury est une responsabilité civique au Canada."
+  },
+  {
+    q: "Quelle langue est une des langues officielles du Canada?",
+    opts: ["Espagnol", "Français", "Allemand", "Italien"],
+    a: 1,
+    expl: "Le Canada a deux langues officielles : l'anglais et le français."
+  },
+  {
+    q: "Qui est responsable des écoles primaires et secondaires?",
+    opts: ["Le gouvernement fédéral", "Les provinces et territoires", "Le Parlement", "Le Premier ministre"],
+    a: 1,
+    expl: "L'éducation est une compétence provinciale/territoriale."
+  },
+  {
+    q: "Que représente la feuille d'érable sur le drapeau?",
+    opts: ["L'unité nationale", "La Monnaie", "La nature seulement", "La royauté"],
+    a: 0,
+    expl: "La feuille d'érable est un symbole d'unité et d'identité canadienne."
+  },
+  {
+    q: "Que veut dire 'responsabilité civique'?",
+    opts: ["Exercer des droits seulement", "Ignorer les lois", "Participer à la société (p.ex. voter)", "Gagner plus d'impôts"],
+    a: 2,
+    expl: "Les responsabilités civiques incluent voter, respecter la loi et servir comme juré si appelé."
+  },
+  {
+    q: "Quel est le rôle du Premier ministre?",
+    opts: [
+      "Exécuter les lois",
+      "Diriger le gouvernement",
+      "Présider le Sénat",
+      "Nommer les juges"
+    ],
+    a: 1,
+    expl: "Le Premier ministre dirige le gouvernement fédéral."
+  },
+  {
+    q: "Quelle est la capitale du Canada?",
+    opts: ["Toronto", "Montréal", "Ottawa", "Vancouver"],
+    a: 2,
+    expl: "Ottawa est la capitale du Canada."
+  },
+  {
+    q: "Que représente la balance dans la justice?",
+    opts: ["La loi", "L'équité", "La force", "Le droit"],
+    a: 1,
+    expl: "La balance symbolise l'équité dans la justice."
+  },
+  {
+    q: "Quelle est la monnaie officielle du Canada?",
+    opts: ["Dollar canadien", "Euro", "Dollar américain", "Franc canadien"],
+    a: 0,
+    expl: "Le dollar canadien est la monnaie officielle."
+  },
+  {
+    q: "Quelle est la plus grande province du Canada en superficie?",
+    opts: ["Ontario", "Québec", "Alberta", "Colombie-Britannique"],
+    a: 1,
+    expl: "Le Québec est la plus grande province en superficie."
+  },
+  {
+    q: "Combien de langues officielles y a-t-il au Canada?",
+    opts: ["1", "2", "3", "4"],
+    a: 1,
+    expl: "Le Canada a deux langues officielles : l'anglais et le français."
+  },
+  {
+    q: "Qui peut devenir citoyen canadien?",
+    opts: [
+      "Toute personne née au Canada",
+      "Les résidents permanents ayant vécu au Canada plusieurs années",
+      "Les touristes",
+      "Les étudiants étrangers"
+    ],
+    a: 1,
+    expl: "Les résidents permanents qui respectent les conditions peuvent demander la citoyenneté."
+  },
+  {
+    q: "Quelle est la fête nationale du Canada?",
+    opts: ["Jour de la Confédération", "Jour de la Victoire", "Noël", "Fête du Travail"],
+    a: 0,
+    expl: "Le 1er juillet est la fête nationale, appelée Jour de la Confédération."
+  }
+];
+
 let selectedSet = [];
 let answers = {};
 let currentIndex = 0;
@@ -14,16 +144,6 @@ function formatTime(s) {
   const m = Math.floor(s / 60);
   const sec = s % 60;
   return `${String(m).padStart(2, "0")}:${String(sec).padStart(2, "0")}`;
-}
-
-async function loadQuestions() {
-  try {
-    const resp = await fetch("questions.json");
-    if (!resp.ok) throw new Error("Erreur chargement questions");
-    QUESTIONS = await resp.json();
-  } catch (e) {
-    alert("Impossible de charger les questions. Vérifie le fichier questions.json");
-  }
 }
 
 function pickQuestions() {
@@ -87,7 +207,7 @@ function startTimer() {
 
 function startTest() {
   if (QUESTIONS.length === 0) {
-    alert("Les questions ne sont pas chargées. Recharge la page.");
+    alert("Les questions ne sont pas chargées.");
     return;
   }
   selectedSet = pickQuestions();
@@ -180,5 +300,3 @@ document.getElementById("resetBtn").addEventListener("click", () => {
     document.getElementById("resultArea").classList.add("hidden");
   }
 });
-
-window.onload = loadQuestions;
